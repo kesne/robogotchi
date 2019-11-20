@@ -20,7 +20,7 @@ export class Robogotchi {
         }, 5);
     }
 
-    emote(emotion) {
+    getEmote(emotion) {
         return fetch(`https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}&tag=${emotion}&rating=PG`)
         .then(function(response) {
             if (response.status !== 200) {
@@ -30,7 +30,7 @@ export class Robogotchi {
             return response.json().then(function(jsonResponse) {
                 return jsonResponse.data.images.original.url;
             });
-        }) 
+        })
         .catch(function(error) {
             console.error(`Fetch Error: ${error}`);
             return 'failure';
