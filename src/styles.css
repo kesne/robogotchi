@@ -38,10 +38,10 @@ body {
     justify-content: center;
 }
 
-#screen #face {
+#face {
     max-height: 90%;
     min-width: 80%;
-    max-width: 100%;
+    max-width: 90%;
 }
 
 #statusBar {

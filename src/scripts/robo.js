@@ -20,12 +20,12 @@ export class Robogotchi {
         }, 5);
     }
 
-    getEmote(emotion) {
+    emote(emotion) {
         return fetch(`https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}&tag=${emotion}&rating=PG`)
         .then(function(response) {
             if (response.status !== 200) {
                 console.error(`Error in response: ${response.status}`);
-                return 'failure';
+                return false;
             }
             return response.json().then(function(jsonResponse) {
                 return jsonResponse.data.images.original.url;
@@ -33,15 +33,7 @@ export class Robogotchi {
         })
         .catch(function(error) {
             console.error(`Fetch Error: ${error}`);
-            return 'failure';
+            return false;
         });
-
-        // return fetch(`https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}&tag=${emotion}&rating=PG`)
-        // .then(function(response){
-        //     return response.json();
-        // })
-        // .then(function(jsonifiedResponse){
-        //      return jsonifiedResponse.data.images.original.url;
-        // });
     }
 }
