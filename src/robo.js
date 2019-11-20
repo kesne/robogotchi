@@ -1,46 +1,47 @@
 export class Robogotchi {
-  constructor(name) {
-    this.name = name;
-    this.energy = 100;
-    this.temperature = 20;
-    this.mood = 'happy';
+    constructor(name) {
+        this.name = name;
+        this.energy = 100;
+        this.mood = 'happy';
 
-    this.energyLoss();
-  }
-
-  energyLoss() {
-    setInterval( () => {
-      this.energy--;
-    }, 1000);
-  }
-
-  checkDeath() {
-    setInterval( () => {
-      if (this.energy <= 0) return true;
-    }, 5);
-  }
-
-  emote() {
-    let giphy;
-    let request = new XMLHttpRequest();
-    const url = `https://api.giphy.com/v1/gifs/random?api_key=${process.env.giphy}&tag=happy&rating=PG`;
-    request.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-        const response = JSON.parse(this.responseText);
-        prepareImage(response);
-      }
+        this.energyLoss();
+        this.checkDeath();
     }
 
-    request.open("GET", url, true);
-    request.send();
-
-
-    const prepareImage = function(response) {
-      giphy = new Image();
-      giphy.src = response.data.images.original.url;
-      giphy.alt = 'alt';
+    energyLoss() {
+        setInterval( () => {
+            this.energy--;
+        }, 1000);
     }
-    console.log(giphy);
-    return giphy;
-  }
+
+    checkDeath() {
+        setInterval( () => {
+            if (this.energy <= 0) return true;
+        }, 5);
+    }
+
+    emote(emotion) {
+        return fetch(`https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}&tag=${emotion}&rating=PG`)
+        .then(function(response) {
+            if (response.status !== 200) {
+                console.error(`Error in response: ${response.status}`);
+                return 'failure';
+            }
+            return response.json().then(function(jsonResponse) {
+                return jsonResponse.data.images.original.url;
+            });
+        }) 
+        .catch(function(error) {
+            console.error(`Fetch Error: ${error}`);
+            return 'failure';
+        });
+
+        // return fetch(`https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}&tag=${emotion}&rating=PG`)
+        // .then(function(response){
+        //     return response.json();
+        // })
+        // .then(function(jsonifiedResponse){
+        //      return jsonifiedResponse.data.images.original.url;
+        // });
+    }
 }
