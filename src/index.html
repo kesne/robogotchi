@@ -6,22 +6,22 @@
     <title>Robogotchi</title>
 </head>
 <body>
-    <div class='grid'>
-        <div class='grid-item' id='stats'>
+    <div id='robo'>
+        <input type='text' name='robo-name' id='name' placeholder='name'>
+        <div id='border'>
+            <div id='screen'>
+                <img id='face'>
+            </div>
+        </div>
+    </div>
+    <div id="statusBar">
+        <div id='interact'>
+            <h2>Interact</h2>
+        </div>
+        <div id='stats'>
             <h2>Stats</h2>
             <p>⚡ <span id='energy'></span></p>
             <p>😶 <span id='mood'></span></p>
-        </div>
-        <div class='grid-item' id='robo'>
-            <input type='text' name='robo-name' id='name' placeholder='Roberto'>
-            <div id='border'>
-                <div id='screen'>
-
-                </div>
-            </div>
-        </div>
-        <div class='grid-item' id='interact'>
-            <h2>Interact</h2>
         </div>
     </div>
 </body>
