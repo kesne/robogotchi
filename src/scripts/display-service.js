@@ -8,7 +8,6 @@ export class DisplayService {
         $('input#name').remove();
         this.updateStats(robo);
 
-        $('div#border').attr(`<img id='screen' alt='${robo.name} face'>`);
         this.showFace(robo, 'hello');
     }
 

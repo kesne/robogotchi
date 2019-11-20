@@ -11,7 +11,7 @@ export class Robogotchi {
     energyLoss() {
         setInterval( () => {
             this.energy--;
-        }, 1000);
+        }, 2000);
     }
 
     checkDeath() {
