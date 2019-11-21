@@ -1,33 +1,42 @@
 import $ from 'jquery';
 import errorGIF from './../assets/error.gif';
 import smileGIF from './../assets/smile.gif';
+import { Robogotchi } from './robo';
 
 export class DisplayService {
-    start(robo) {
-        $('div#robo').prepend(`<h1>${robo.name}</h1>`);
-        $('input#name').remove();
-        this.updateStats(robo);
+    constructor(name) {
+        this.robo = new Robogotchi(name);
 
-        this.showFace(robo, 'hello');
+        $('input#searchbar').on('change', function(){
+            let searchTerm = $('#searchbar').val();
+            let search = this.robo.movieSearch(searchTerm);
+            console.log(search);
+        });
+
+        $('div#robo').prepend(`<h1>${this.robo.name}</h1>`);
+        $('input#name').remove();
+        this.updateStats();
+
+        this.showFace('hello');
     }
 
-    updateStats(robo) {
-        $(`span#energy`).text(robo.energy);
+    updateStats() {
+        $(`span#energy`).text(this.robo.energy);
         setInterval( () => {
-            $(`span#energy`).text(robo.energy);
+            $(`span#energy`).text(this.robo.energy);
         }, 1000);
     }
 
-    async showFace(robo, emotion) {
-        const gifURL = await robo.emote(emotion);
+    async showFace(emotion) {
+        const gifURL = await this.robo.emote(emotion);
         if (gifURL) {
             $('#face').attr('src', gifURL);
         } else {
             $('#face').attr('src', errorGIF);
         }
-        setTimeout( () => {
+
+        setTimeout(() => {
             $('#face').attr('src', smileGIF);
         }, 3000);
-        return true;
     }
 }

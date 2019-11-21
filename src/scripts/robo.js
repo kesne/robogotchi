@@ -1,57 +1,59 @@
 export class Robogotchi {
-    constructor(name) {
-        this.name = name;
-        this.energy = 100;
-        this.mood = 'happy';
+  constructor(name) {
+    this.name = name;
+    this.energy = 100;
+    this.mood = "happy";
 
-        this.energyLoss();
-        this.checkDeath();
+    this.energyLoss();
+  }
+
+  energyLoss() {
+    setInterval(() => this.decrementEnergy(), 2000);
+  }
+
+  decrementEnergy(amount = 1) {
+    this.energy -= amount;
+    if (this.energy <= 0) {
+      // Dead :(
     }
+  }
 
-    energyLoss() {
-        setInterval( () => {
-            this.energy--;
-        }, 2000);
+  async emote(emotion) {
+    try {
+      const response = await fetch(
+        `https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}&tag=${emotion}&rating=PG`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error in Giphy response: ${response.status}`);
+      }
+
+      const jsonResponse = await response.json();
+      return jsonResponse.data.images.original.url;
+    } catch(error) {
+      console.error(`Giphy Fetch Error: ${error}`);
+      return null;
     }
+  }
 
-    checkDeath() {
-        setInterval( () => {
-            if (this.energy <= 0) return true;
-        }, 5);
-    }
-
-    emote(emotion) {
-        return fetch(`https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}&tag=${emotion}&rating=PG`)
-        .then(function(response) {
-            if (response.status !== 200) {
-                console.error(`Error in Giphy response: ${response.status}`);
-                return false;
-            }
-            return response.json().then(function(jsonResponse) {
-                return jsonResponse.data.images.original.url;
-            });
-        })
-        .catch(function(error) {
-            console.error(`Giphy Fetch Error: ${error}`);
-            return false;
+  // TODO:
+  movieSearch(movieTitle) {
+    return fetch(
+      `http://www.omdbapi.com/?t=${movieTitle}&apikey=${process.env.OMBD_KEY}`
+    )
+      .then(function(response) {
+        if (response.status !== 200) {
+          console.error(`Error in OMBD response: ${response.status}`);
+          return false;
+        }
+        return response.json().then(function(jsonResponse) {
+          console.log(jsonResponse);
+          return jsonResponse;
         });
-    }
-
-    movieSearch(movieTitle){
-        return fetch(`http://www.omdbapi.com/?t=${movieTitle}&apikey=${process.env.OMBD_KEY}`)
-        .then(function(response){
-            if(response.status !== 200){
-                console.error(`Error in OMBD response: ${response.status}`);
-                return false;
-            }
-            return response.json().then(function(jsonResponse){
-                console.log(jsonResponse);
-                return jsonResponse;
-            });
-        })
-        .catch(function(error){
-            console.error(`OMBD Fetch Error: ${error}`)
-            return false;
-        })
-    }
+      })
+      .catch(function(error) {
+        console.error(`OMBD Fetch Error: ${error}`);
+        return false;
+      });
+  }
 }
