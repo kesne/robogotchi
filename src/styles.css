@@ -82,7 +82,7 @@ h2 {
     font-weight: 400;
 }
 
-input {
+#name {
     border-radius: 50px;
     font-family: inherit;
     font-weight: 100;
@@ -91,7 +91,11 @@ input {
     padding: 1rem;
     margin-bottom: 0.5em;
     width: 60%;
-    height: 4%;
+}
+
+#searchbar {
+    height: 15%;
+    display: none;
 }
 
 input:focus {
