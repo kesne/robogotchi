@@ -30,5 +30,4 @@ export class DisplayService {
         }, 3000);
         return true;
     }
-
 }

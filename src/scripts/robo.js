@@ -24,7 +24,7 @@ export class Robogotchi {
         return fetch(`https://api.giphy.com/v1/gifs/random?api_key=${process.env.GIPHY_KEY}&tag=${emotion}&rating=PG`)
         .then(function(response) {
             if (response.status !== 200) {
-                console.error(`Error in response: ${response.status}`);
+                console.error(`Error in Giphy response: ${response.status}`);
                 return false;
             }
             return response.json().then(function(jsonResponse) {
@@ -32,8 +32,26 @@ export class Robogotchi {
             });
         })
         .catch(function(error) {
-            console.error(`Fetch Error: ${error}`);
+            console.error(`Giphy Fetch Error: ${error}`);
             return false;
         });
+    }
+
+    movieSearch(movieTitle){
+        return fetch(`http://www.omdbapi.com/?t=${movieTitle}&apikey=${process.env.OMBD_KEY}`)
+        .then(function(response){
+            if(response.status !== 200){
+                console.error(`Error in OMBD response: ${response.status}`);
+                return false;
+            }
+            return response.json().then(function(jsonResponse){
+                console.log(jsonResponse);
+                return jsonResponse;
+            });
+        })
+        .catch(function(error){
+            console.error(`OMBD Fetch Error: ${error}`)
+            return false;
+        })
     }
 }

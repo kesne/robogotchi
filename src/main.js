@@ -12,5 +12,11 @@ $(document).ready(function() {
     $('input#name').on('change', function() {
         robo = new Robogotchi($('input#name').val());
         display.start(robo);
+        $('#searchbar').fadeIn();
     });
+    $('input#searchbar').on('change', function(){
+        let searchTerm = $('#searchbar').val();
+        let search = robo.movieSearch(searchTerm);
+        console.log(search);
+    })
 });
